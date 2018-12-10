@@ -1,0 +1,34 @@
+---
+environment: production
+
+communication:
+  url: amqp://localhost
+
+logging:
+  level:
+    default: debug
+  appenders:
+    # To Rolling log file, and log everything
+    rolling_file:
+      level: all
+      log_dir: /var/tmp
+      # max 10k of each log file
+      size: 10240
+      # keep 1 log in total
+      keep: 1
+      date_pattern: "%F %T %z"
+      pattern: "[%d] %-5l %c: %m\n"
+
+resources:
+  - type: node
+    uid: <%= Socket.gethostname %>
+
+# DO NOT load default factories
+add_default_factories: false
+
+# Customise resources which can be created by this RC
+factories:
+  load: [
+    'omf_rc/resource_proxy/node',
+    'omf_rc/resource_proxy/application'
+  ]
