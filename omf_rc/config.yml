@@ -1,0 +1,24 @@
+---
+# default topic name is this machine's hostname
+# this is to ensure that every RC has its own topic and AMQP account
+environment: development
+debug: true
+
+communication:
+  url: amqp://192.168.89.100
+  user: guest
+  password: guest
+
+resources:
+- type: switch
+  uid: vm-fibre-ovs
+  stype: "ovs"
+  ip_address: "192.168.89.100"
+  user: root
+  port: 22
+  key_file: "/root/.ssh/id_rsa"
+  ovs_bin_dir: "/usr/bin/"
+  bridge: ovs-br
+- type: netfpga1
+  uid: vm-fibre-netfpga1
+
