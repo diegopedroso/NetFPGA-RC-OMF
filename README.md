@@ -6,7 +6,7 @@
 * Ruby 2.2 ou superior
 * OMF EC
 
-### Visão Geral (VMs)
+### Visão Geral 
 
 Para permitir a reprogramação e controles das máquinas, foram desenvolvidos componentes de softwares baseados em OMF que encapsulam função de baixo nível.  Todas as máquinas possuem um módulo controlador do OMF chamado RC Resource Controller, esse módulo permite operar ações oriundas do ED Experiment Description, e que são comandadas pelo EC Experiment Controller. O OMF permite que o usuário escreva um ED, que por sua vez, é submetido ao EC, que é responsável pelo controle do projeto em nome do usuário. 
 
@@ -48,7 +48,7 @@ Após compilar seu projeto usando o servidor de Deploy
 ```bash
 $ omf_ec ec.rb
 ```
-> Após o tempo espeficicado no controlador, o experimentor retornará ao usuário um arquivo (.txt) com as métricas informados no script EC contendo os dados referente ao experimento.
+> Após o tempo determinado no controlador, o experimentor retornará ao usuário um arquivo (.txt) com as métricas informados no script EC contendo os dados referente ao experimento.
 ---
 
 
