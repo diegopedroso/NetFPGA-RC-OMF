@@ -13,6 +13,10 @@ module OmfRc::ResourceProxy::Netfpga
   property :bit_name, :default => "bit_name"
   property :conf_name, :default => "conf_name"
   property :ip_ec, :default => "ip"
+  property :ip_address, :default => "ip_address"
+  property :iface, :default => "iface"
+  property :mac_address, :default => "mac"
+
   #
   # Gets the :if_name property
   #
@@ -93,11 +97,30 @@ module OmfRc::ResourceProxy::Netfpga
     netfpga1.property.ip_ec
   end
 
+
   #
-  # Configure the :upload_bit
+  # Configure the :set_ip_address
   #
+  configure :set_ip_address do |netfpga1, value|
+    info 'Configure(set_ip_address) called'
+    netfpga1.execute_cmd("ifconfig #{netfpga1.property.iface} #{netfpga1.property.ip_address}").delete("\n")
+  value
+  end
 
 
+  #
+  # Configure the :set_mac_address
+  #
+  configure :set_mac_address do |netfpga1, value|
+    info 'Configure(set_mac_address) called'
+    netfpga1.execute_cmd("ifconfig #{netfpga1.property.iface} hw ether #{netfpga1.property.mac_address}").delete("\n")
+  value
+  end 
+
+ 
+  #
+  # Configure the :set_mac_address
+  #
   configure :upload_bit do |netfpga1, value|
     info 'Configure(upload_bit) called'
     netfpga1.execute_cmd("scp ec:/root/ec/#{netfpga1.property.bit_name} /tmp").delete("\n")
@@ -127,13 +150,20 @@ module OmfRc::ResourceProxy::Netfpga
   end
 
 
+  #
+  # Configure the :result_FTP
+  #
  # configure :result_FTP do |netfpga1, value|
    # info 'Configure(result_FTP) called'
    # netfpga1.execute_cmd("ifconfig >> /tmp/result_netfpga1.txt").delete("\n")
-   # netfpga1.execute_cmd("sshpass -p 'whitebox1asgard' scp /tmp/result_netfpga1.txt whitebox-01@#{netfpga1.property.ip_ec}:#{value}).delete("\
+   # netfpga1.execute_cmd("scp /tmp/result_netfpga1.txt whitebox-01@#{netfpga1.property.ip_ec}:#{value}).delete("\
   #  value
  # end
-  
+ 
+
+  #
+  # Configure the :iperf
+  # 
   configure :iperf do |netfpga1, value|
     info 'Configure(iperf) called'
     netfpga1.execute_cmd("iperf -c 193.168.88.101 -i 1 >> /tmp/return_iperf.txt").delete("\n")
@@ -141,9 +171,12 @@ module OmfRc::ResourceProxy::Netfpga
   end
 
   
+  #
+  # Configure the :return_iperf
+  #
   configure :return_iperf do |netfpga1, value|
     info 'Configure(return_iperf) called'
-    netfpga1.execute_cmd("sshpass -p 'whitebox1asgard' scp /tmp/return_iperf.txt whitebox-01@#{netfpga1.property.ip_ec}:#{value}").delete("\n")
+    netfpga1.execute_cmd("scp /tmp/return_iperf.txt whitebox-01@#{netfpga1.property.ip_ec}:#{value}").delete("\n")
     value
   end
 end
