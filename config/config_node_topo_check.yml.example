@@ -1,0 +1,25 @@
+---
+environment: production
+
+communication:
+  url: amqp://localhost
+
+resources:
+  - type: node
+    uid: <%= Socket.gethostname %>
+
+# DO NOT load default factories
+add_default_factories: false
+
+# Customise resources which can be created by this RC
+factories:
+  load: [
+    'omf_rc/resource_proxy/node',
+    'omf_rc/resource_proxy/net',
+    'omf_rc/resource_proxy/wlan',
+    'omf_rc/resource_proxy/application'
+  ]
+  # Set default value of resource property
+  defaults:
+    node:
+      topo_file: '/etc/topology.txt'
